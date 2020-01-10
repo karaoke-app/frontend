@@ -78,7 +78,7 @@ export default {
     saveSelection: function() {
       this.$store.commit("setSelectedGenres", this.selection);
       this.$parent.close();
-    },
+    }
   },
   computed: {
     ...mapGetters(["selectedGenres"])

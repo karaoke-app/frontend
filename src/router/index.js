@@ -14,12 +14,10 @@ const routes = [
     component: Home
   },
   {
-    path: "/list",
-    name: "list",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ "../views/List.vue")
+    path: "/catalog",
+    name: "catalog",
+    component: () =>
+      import(/* webpackChunkName: "catalog" */ "../views/Catalog.vue")
   },
   {
     path: "/song/:songId",
@@ -47,7 +45,15 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
+
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 });
 
 router.beforeEach((to, from, next) => {

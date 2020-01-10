@@ -8,7 +8,7 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">karaoke-app</h1>
-          <b-button tag="router-link" to="/list" class="is-success"
+          <b-button tag="router-link" to="/list" class="is-white"
             >Sing along</b-button
           >
         </div>

@@ -2,36 +2,33 @@ import axios from "axios";
 import { API_URL } from "../../common/config";
 
 const state = {
-  selectedGenres: [],
+  categories: [],
   songs: [],
   isLoadingList: false
 };
 
 const getters = {
-  selectedGenres() {
-    return state.selectedGenres;
+  categories() {
+    return state.categories;
   },
   songs() {
     return state.songs;
+  },
+  isLoadingList() {
+    return state.isLoadingList;
   }
 };
 
 const mutations = {
-  setSelectedGenres(state, selectedGenres) {
-    state.selectedGenres = selectedGenres;
-  },
-  unselectGenre(state, deletedSelection) {
-    state.selectedGenres.splice(
-      state.selectedGenres.indexOf(deletedSelection),
-      1
-    );
-  },
   fetchStart(state) {
     state.isLoadingList = true;
   },
   fetchEnd(state, songs) {
     state.songs = songs;
-    state.isLoading = false;
+    state.isLoadingList = false;
+  },
+  setCategories(state, categories) {
+    state.categories = categories;
   }
 };
 
@@ -51,6 +48,11 @@ const actions = {
           reject(err);
         });
     });
+  },
+
+  async fetchCategories({ commit }) {
+    const res = await axios.get(API_URL + "/categories");
+    commit("setCategories", res.data);
   }
 };
 

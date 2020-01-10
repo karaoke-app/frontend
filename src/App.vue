@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <vue-progress-bar></vue-progress-bar>
+
     <Navbar v-if="!homePage" />
 
     <router-view />
@@ -44,7 +46,9 @@ export default {
       return this.$route.path === "/";
     }
   },
-  created: function() {
+  created() {
+    this.$Progress.start();
+
     axios.interceptors.response.use(undefined, function(err) {
       return new Promise(function() {
         if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
@@ -53,6 +57,18 @@ export default {
         throw err;
       });
     });
+
+    this.$router.beforeEach((to, from, next) => {
+      this.$Progress.start();
+      next();
+    });
+
+    this.$router.afterEach(() => {
+      this.$Progress.finish();
+    });
+  },
+  mounted() {
+    this.$Progress.finish();
   }
 };
 </script>
