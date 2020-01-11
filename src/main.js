@@ -5,9 +5,9 @@ import router from "./router";
 import store from "./store";
 import "buefy/dist/buefy.css";
 import "./assets/bulma-social.min.css";
-import axios from "axios";
 import "./vee-validate";
 import VueProgressBar from "vue-progressbar";
+import api from "./api";
 
 Vue.config.productionTip = false;
 
@@ -20,12 +20,7 @@ Vue.use(VueProgressBar, {
   thickness: "6px"
 });
 
-Vue.prototype.$http = axios;
-const access_token = localStorage.getItem("token");
-if (access_token) {
-  Vue.prototype.$http.defaults.headers.common["Authorization"] =
-    "Bearer " + access_token;
-}
+Vue.prototype.$http = api;
 
 new Vue({
   router,

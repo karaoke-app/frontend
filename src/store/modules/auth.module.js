@@ -1,5 +1,4 @@
-import { API_URL } from "../../common/config";
-import axios from "axios";
+import api from "@/api";
 
 const state = {
   status: "",
@@ -37,11 +36,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       // The Promise used for router redirect in login
       commit("auth_request");
-      axios({ url: API_URL + "/login", data: user, method: "POST" })
+      api({ url: "login", data: user, method: "POST" })
         .then(resp => {
           const token = resp.data.access_token;
           localStorage.setItem("token", token); // store the token in localstorage
-          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+          api.defaults.headers["Authorization"] = `Bearer ${token}`;
           commit("auth_success", token);
           resolve(resp);
         })
@@ -55,8 +54,8 @@ const actions = {
   register({ commit }, user) {
     return new Promise((resolve, reject) => {
       commit("auth_request");
-      axios({
-        url: API_URL + "/register",
+      api({
+        url: "register",
         data: user,
         method: "POST"
       })
@@ -64,7 +63,7 @@ const actions = {
           const token = resp.data.access_token;
           const user = resp.data.user;
           localStorage.setItem("token", token);
-          axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+          api.defaults.headers["Authorization"] = `Bearer ${token}`;
           commit("auth_success", token, user);
           resolve(resp);
         })
@@ -79,7 +78,7 @@ const actions = {
     return new Promise(resolve => {
       commit("logout");
       localStorage.removeItem("token");
-      delete axios.defaults.headers.common["Authorization"];
+      delete api.defaults.headers["Authorization"];
       resolve();
     });
   }

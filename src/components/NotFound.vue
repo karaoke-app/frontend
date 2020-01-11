@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <section class="hero is-primary is-large is-bold">
       <div class="hero-body">
         <div class="container has-text-centered">
@@ -13,7 +13,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </main>
 </template>
 
 <script>

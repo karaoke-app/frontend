@@ -1,5 +1,4 @@
-import axios from "axios";
-import { API_URL } from "../../common/config";
+import api from "@/api";
 
 const state = {
   cues: [],
@@ -56,8 +55,8 @@ const mutations = {
 
 const actions = {
   storeSong({ getters }) {
-    return axios({
-      url: API_URL + "/songs",
+    return api({
+      url: "songs",
       method: "POST",
       data: getters.storeSongData
     });

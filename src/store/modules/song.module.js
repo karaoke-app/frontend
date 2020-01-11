@@ -1,5 +1,4 @@
-import axios from "axios";
-import { API_URL } from "../../common/config";
+import api from "@/api";
 
 const state = {
   song: {
@@ -36,8 +35,8 @@ const actions = {
   fetchSong({ commit }, songId) {
     commit("fetchSongStart");
     return new Promise(resolve => {
-      axios({
-        url: API_URL + "/songs/" + songId,
+      api({
+        url: `songs/${songId}`,
         method: "GET"
       })
         .then(resp => {

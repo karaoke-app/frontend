@@ -1,5 +1,4 @@
-import axios from "axios";
-import { API_URL } from "../../common/config";
+import api from "@/api";
 
 const state = {
   categories: [],
@@ -36,8 +35,8 @@ const actions = {
   fetchSongs({ commit }) {
     commit("fetchStart");
     return new Promise((resolve, reject) => {
-      axios({
-        url: API_URL + "/songs",
+      api({
+        url: "songs",
         method: "GET"
       })
         .then(resp => {
@@ -51,7 +50,7 @@ const actions = {
   },
 
   async fetchCategories({ commit }) {
-    const res = await axios.get(API_URL + "/categories");
+    const res = await api.get("/categories");
     commit("setCategories", res.data);
   }
 };
