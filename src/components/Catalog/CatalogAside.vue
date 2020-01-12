@@ -10,12 +10,9 @@
     <div class="categories">
       <div class="menu-label">Categories</div>
       <div class="field" v-for="cat in categories" :key="cat.name">
-        <b-radio
-          :native-value="cat.name"
-          v-model="category"
-          @click.native="pickCategory(cat.name)"
-          >{{ cat.name }}</b-radio
-        >
+        <b-radio :native-value="cat.name" v-model="category">{{
+          cat.name
+        }}</b-radio>
       </div>
     </div>
     <button
