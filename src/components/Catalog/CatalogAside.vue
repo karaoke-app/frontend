@@ -2,22 +2,27 @@
   <aside class="filters">
     <div class="menu-label">Sort by</div>
     <div class="select is-fullwidth">
-      <select>
-        <option value="date-asc" selected>Date ascending</option>
-        <option value="date-desc">Date descending</option>
+      <select v-model="sort" placeholder="Date ascending">
+        <option value="date_asc">Date ascending</option>
+        <option value="date_desc">Date descending</option>
       </select>
     </div>
-    <b-menu class="category-menu">
-      <b-menu-list label="Categories">
-        <b-menu-item
-          v-for="category in categories"
-          :key="category.name"
-          :label="category.name"
-          @click="pickCategory(category.name)"
-        ></b-menu-item>
-      </b-menu-list>
-    </b-menu>
-    <button class="button is-fullwidth" disabled>
+    <div class="categories">
+      <div class="menu-label">Categories</div>
+      <div class="field" v-for="cat in categories" :key="cat.name">
+        <b-radio
+          :native-value="cat.name"
+          v-model="category"
+          @click.native="pickCategory(cat.name)"
+          >{{ cat.name }}</b-radio
+        >
+      </div>
+    </div>
+    <button
+      class="button is-fullwidth"
+      @click="resetFilters()"
+      :disabled="!isFiltered"
+    >
       <span class="icon is-hidden-tablet-only">
         <i class="fas fa-times"></i>
       </span>
@@ -31,12 +36,33 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "CatalogAside",
+
   computed: {
-    ...mapGetters(["categories"])
+    ...mapGetters(["categories", "isFiltered"]),
+    category: {
+      get() {
+        return this.$store.state.catalog.filters.category;
+      },
+      set(val) {
+        this.$store.commit("setFilters", { category: val });
+        this.$store.dispatch("fetchSongs");
+      }
+    },
+    sort: {
+      get() {
+        return this.$store.state.catalog.filters.sort;
+      },
+      set(val) {
+        this.$store.commit("setFilters", { sort: val });
+        this.$store.dispatch("fetchSongs");
+      }
+    }
   },
+
   methods: {
-    pickCategory(id) {
-      console.log(id);
+    resetFilters() {
+      this.$store.commit("resetFilters");
+      this.$store.dispatch("fetchSongs");
     }
   }
 };
@@ -48,7 +74,7 @@ export default {
   top: 2em;
 }
 
-.category-menu {
+.categories {
   margin: 2em 0;
 }
 </style>

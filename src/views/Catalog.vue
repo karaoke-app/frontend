@@ -8,14 +8,18 @@
               <b-field>
                 <b-input
                   placeholder="Search..."
-                  v-model="searchInput"
+                  :value="query"
+                  @keyup.enter.native="search($event.target.value)"
                   type="search"
                   expanded
                   icon="search"
+                  ref="query"
                 >
                 </b-input>
                 <p class="control">
-                  <b-button class="button is-success" @click="search"
+                  <b-button
+                    class="button is-success"
+                    @click="search($refs.query.$refs.input.value)"
                     >Search</b-button
                   >
                 </p>
@@ -47,35 +51,35 @@
 <script>
 import CatalogGrid from "@/components/Catalog/CatalogGrid";
 import CatalogAside from "@/components/Catalog/CatalogAside";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import store from "@/store";
 
 export default {
   name: "List",
-  data() {
-    return {
-      searchInput: ""
-    };
-  },
+
   components: {
     CatalogGrid,
     CatalogAside
   },
-  methods: {
-    search: function() {}
-    // showAddGenreModal: function() {
-    //   this.$buefy.modal.open({
-    //     parent: this.$root,
-    //     component: AddGenreModal,
-    //     hasModalCard: true
-    //   });
-    // },
-    // unselectGenre: function(genre) {
-    //   this.$store.commit("unselectGenre", genre);
-    // }
+
+  data() {
+    return {
+      localQuery: ""
+    };
   },
+
   computed: {
-    ...mapGetters(["isLoadingList"])
+    ...mapGetters(["isLoadingList"]),
+    ...mapState({
+      query: state => state.catalog.filters.query
+    })
+  },
+
+  methods: {
+    search(val) {
+      this.$store.commit("setFilters", { query: val });
+      this.$store.dispatch("fetchSongs");
+    }
   },
 
   async beforeRouteEnter(to, from, next) {

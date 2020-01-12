@@ -4,11 +4,7 @@ const state = {
   categories: [],
   songs: [],
   isLoadingList: false,
-  filters: {
-    sortBy: null,
-    category: null,
-    query: null
-  }
+  filters: {}
 };
 
 const getters = {
@@ -20,6 +16,16 @@ const getters = {
   },
   isLoadingList() {
     return state.isLoadingList;
+  },
+  filters() {
+    return state.filters;
+  },
+  isFiltered() {
+    return (
+      state.filters.sort !== "date_asc" ||
+      state.filters.category ||
+      state.filters.query
+    );
   }
 };
 
@@ -33,6 +39,16 @@ const mutations = {
   },
   setCategories(state, categories) {
     state.categories = categories;
+  },
+  setFilters(state, filters) {
+    state.filters = { ...state.filters, ...filters };
+  },
+  resetFilters(state) {
+    mutations.setFilters(state, {
+      sort: "date_asc",
+      category: null,
+      query: null
+    });
   }
 };
 
@@ -40,10 +56,10 @@ const actions = {
   fetchSongs({ commit }) {
     commit("fetchStart");
     return new Promise((resolve, reject) => {
-      api({
-        url: "songs",
-        method: "GET"
-      })
+      api
+        .get("songs", {
+          params: state.filters
+        })
         .then(resp => {
           commit("fetchEnd", resp.data);
           resolve(resp);
@@ -55,10 +71,12 @@ const actions = {
   },
 
   async fetchCategories({ commit }) {
-    const res = await api.get("/categories");
+    const res = await api.get("categories");
     commit("setCategories", res.data);
   }
 };
+
+mutations.resetFilters(state);
 
 export default {
   actions,
