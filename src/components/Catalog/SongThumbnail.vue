@@ -1,7 +1,7 @@
 <template>
   <router-link :to="songLink" class="thumbnail-container">
     <div class="thumbnail-image">
-      <img src="http://placehold.jp/500x350.png" />
+      <img src="../../assets/default_thumbnail.png" />
     </div>
     <div class="thumbnail-title">{{ song.artist }} - {{ song.title }}</div>
   </router-link>
