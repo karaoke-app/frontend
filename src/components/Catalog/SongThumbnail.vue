@@ -28,7 +28,7 @@ export default {
 
 <style scoped lang="scss">
 .thumbnail-container {
-  padding: 1.5em;
+  padding: 1em 2em;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -29,15 +29,7 @@
       <div class="container">
         <div class="columns">
           <div class="column is-2">
-            <b-menu class="category-menu">
-              <b-menu-list label="Categories">
-                <b-menu-item
-                  v-for="category in categories"
-                  :key="category.name"
-                  :label="category.name"
-                ></b-menu-item>
-              </b-menu-list>
-            </b-menu>
+            <CatalogAside></CatalogAside>
           </div>
           <div class="column">
             <CatalogGrid />
@@ -54,6 +46,7 @@
 
 <script>
 import CatalogGrid from "@/components/Catalog/CatalogGrid";
+import CatalogAside from "@/components/Catalog/CatalogAside";
 import { mapGetters } from "vuex";
 import store from "@/store";
 
@@ -65,7 +58,8 @@ export default {
     };
   },
   components: {
-    CatalogGrid
+    CatalogGrid,
+    CatalogAside
   },
   methods: {
     search: function() {}
@@ -81,7 +75,7 @@ export default {
     // }
   },
   computed: {
-    ...mapGetters(["isLoadingList", "categories"])
+    ...mapGetters(["isLoadingList"])
   },
 
   async beforeRouteEnter(to, from, next) {
@@ -90,10 +84,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.category-menu {
-  position: sticky;
-  top: 1em;
-}
-</style>

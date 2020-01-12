@@ -3,7 +3,12 @@ import api from "@/api";
 const state = {
   categories: [],
   songs: [],
-  isLoadingList: false
+  isLoadingList: false,
+  filters: {
+    sortBy: null,
+    category: null,
+    query: null
+  }
 };
 
 const getters = {

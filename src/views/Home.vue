@@ -1,6 +1,6 @@
 <template>
   <main>
-    <section class="hero is-primary is-large is-bold">
+    <section class="hero is-primary is-large hero-home">
       <div class="hero-head">
         <Navbar homepage="true" />
       </div>
@@ -8,7 +8,7 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">karaoke-app</h1>
-          <b-button tag="router-link" to="/list" class="is-white"
+          <b-button tag="router-link" to="/catalog" class="is-white"
             >Sing along</b-button
           >
         </div>
@@ -48,3 +48,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.hero-home {
+  background-image: url("../assets/woman_holding_microphone.jpg");
+  background-position: center;
+  background-size: cover;
+}
+</style>

@@ -7,11 +7,17 @@
     <router-view />
 
     <footer class="footer content has-text-centered">
-      <p class="">karaoke-app</p>
+      <p>karaoke-app</p>
       <p>
         <a href="https://github.com/karaoke-app/frontend">
           <i class="fab fa-github fa-2x"></i>
         </a>
+      </p>
+      <p>
+        <small>
+          Home cover photo by
+          <a href="https://unsplash.com/@forja2">Forja2 Mx</a>
+        </small>
       </p>
     </footer>
   </div>
