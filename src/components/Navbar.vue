@@ -1,6 +1,6 @@
 <template>
   <b-navbar
-    wrapper-class="container"
+    wrapper-class="container is-fluid"
     transparent
     spaced
     :shadow="!homepage"

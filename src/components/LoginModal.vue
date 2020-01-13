@@ -1,70 +1,72 @@
 <template>
-  <div class="modal-card login-modal" style="width:auto">
-    <form @submit.prevent="login">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Login</p>
-      </header>
+  <form
+    @submit.prevent="login"
+    class="modal-card login-modal"
+    style="width:auto"
+  >
+    <header class="modal-card-head">
+      <p class="modal-card-title">Login</p>
+    </header>
 
-      <section class="modal-card-body">
-        <div class="buttons social-buttons">
-          <b-button expanded class="is-facebook">
-            <span class="icon">
-              <i class="fab fa-facebook" />
-            </span>
-            <span>Login with Facebook</span>
-          </b-button>
+    <section class="modal-card-body">
+      <div class="buttons social-buttons">
+        <b-button expanded class="is-facebook">
+          <span class="icon">
+            <i class="fab fa-facebook" />
+          </span>
+          <span>Login with Facebook</span>
+        </b-button>
 
-          <b-button expanded class="is-google">
-            <span class="icon">
-              <i class="fab fa-google" />
-            </span>
-            <span>Login with Google</span>
-          </b-button>
-        </div>
+        <b-button expanded class="is-google">
+          <span class="icon">
+            <i class="fab fa-google" />
+          </span>
+          <span>Login with Google</span>
+        </b-button>
+      </div>
 
-        <div class="separator">OR</div>
+      <div class="separator">OR</div>
 
-        <b-field>
-          <b-input
-            v-model="email"
-            placeholder="Email"
-            required
-            icon-pack="fas"
-            icon="user"
-          />
-        </b-field>
+      <b-field>
+        <b-input
+          v-model="email"
+          placeholder="Email"
+          required
+          icon-pack="fas"
+          icon="user"
+        />
+      </b-field>
 
-        <b-field>
-          <b-input
-            v-model="password"
-            type="password"
-            placeholder="Password"
-            password-reveal
-            required
-            icon-pack="fas"
-            icon="key"
-          />
-        </b-field>
+      <b-field>
+        <b-input
+          v-model="password"
+          type="password"
+          placeholder="Password"
+          password-reveal
+          required
+          icon-pack="fas"
+          icon="key"
+        />
+      </b-field>
 
-        <div class="buttons">
-          <b-button
-            expanded
-            type="is-success"
-            tag="input"
-            native-type="submit"
-            value="Login"
-          ></b-button>
-        </div>
-      </section>
+      <div class="buttons">
+        <b-button
+          expanded
+          type="is-success"
+          tag="input"
+          native-type="submit"
+          value="Login"
+        ></b-button>
+      </div>
+    </section>
 
-      <footer class="modal-card-foot">
-        <span
-          >You don't have an account?
-          <a @click="showRegisterModal()">Sign up now!</a></span
-        >
-      </footer>
-    </form>
-  </div>
+    <footer class="modal-card-foot">
+      <span
+        >You don't have an account?
+        <a @click="showRegisterModal()">Sign up now!</a></span
+      >
+    </footer>
+  </form>
 </template>
 
 <script>
