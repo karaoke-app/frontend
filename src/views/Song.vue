@@ -61,7 +61,14 @@
           </div>
         </div>
 
-        <h3 class="subtitle is-4">Songs made by {{ authorMeta.name }}</h3>
+        <h3 class="subtitle is-4">
+          Songs by
+          <router-link
+            :to="profileLink"
+          >
+            {{ song.user.name }}
+          </router-link>
+        </h3>
 
         <div class="columns">
           <div class="column">
@@ -109,12 +116,18 @@ export default {
       next();
     });
   },
-
   computed: {
     updatedAt() {
       return moment(this.songMeta.updatedAt).fromNow();
     },
-
+    profileLink: function() {
+      return {
+        name: "profile",
+        params: {
+          user_id: this.song.user.id
+        }
+      };
+    },
     ...mapGetters(["song"])
   },
   methods: {

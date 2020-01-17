@@ -35,6 +35,17 @@ const routes = [
     }
   },
   {
+    path: "/profile",
+    component: () => import("../views/Profile.vue"),
+    children: [
+      {
+        path: ":user_id",
+        name: "profile",
+        props: true
+      }
+    ]
+  },
+  {
     path: "/401",
     component: Unauthorized
   },

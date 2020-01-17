@@ -7,8 +7,11 @@ const state = {
 };
 
 const getters = {
+  currentUser(){
+    return state.user;
+  },
   isLogged() {
-    return !!state.token;
+    return state.token;
   },
   authStatus() {
     return state.status;

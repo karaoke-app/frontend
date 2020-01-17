@@ -5,7 +5,8 @@ const state = {
     video_id: null,
     artist: {},
     title: {},
-    cues: []
+    cues: [],
+    user: [],
   },
   isLoadingSong: false,
   songError: null

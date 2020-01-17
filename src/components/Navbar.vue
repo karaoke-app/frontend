@@ -41,7 +41,15 @@
           >
             Log in
           </button>
-
+          <b-button
+            v-if="isLogged"
+            class="button is-primary"
+            tag="router-link"
+            to="/profile"
+            :class="{ 'is-inverted': homepage }"
+          >
+            username
+          </b-button>
           <button
             v-if="isLogged"
             class="button is-primary is-outlined"
