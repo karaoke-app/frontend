@@ -35,6 +35,12 @@ const routes = [
     }
   },
   {
+    path: "/auth/callback",
+    component: {
+      template: "<main></main>"
+    }
+  },
+  {
     path: "/401",
     component: Unauthorized
   },
