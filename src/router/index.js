@@ -35,13 +35,27 @@ const routes = [
     }
   },
   {
-    path: "/profile",
+    path: "/:user_id",
     component: () => import("../views/Profile.vue"),
+    props: true,
     children: [
       {
-        path: ":user_id",
-        name: "profile",
-        props: true
+        path: "songs",
+        name: "userSongs",
+        component: () => import("../components/Profile/UserSongs")
+      },
+      {
+        path: "playlists",
+        name: "userPlaylists",
+        component: () => import("../components/Profile/UserPlaylists")
+      },
+      {
+        path: "settings",
+        name: "editProfile",
+        component: () => import("../components/Profile/EditProfile"),
+        meta: {
+          requiredAuth: true
+        }
       }
     ]
   },

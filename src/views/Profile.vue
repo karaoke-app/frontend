@@ -21,12 +21,32 @@
         <div class="columns">
           <b-menu class="column is-2">
             <b-menu-list label="Menu">
-              <b-menu-item icon="list" label="Playlists" />
-              <b-menu-item icon="music" label="Songs" />
-              <b-menu-item icon="cog" label="Edit profile" />
+              <b-menu-item
+                tag="router-link"
+                :to="{ name: 'userSongs' }"
+                aria-role="list"
+                icon="music"
+                label="Songs"
+              />
+              <b-menu-item
+                tag="router-link"
+                :to="{ name: 'userPlaylists' }"
+                aria-role="list"
+                icon="list"
+                label="Playlists"
+              />
+              <b-menu-item
+                tag="router-link"
+                :to="{ name: 'editProfile' }"
+                aria-role="list"
+                icon="cog"
+                label="Edit profile"
+              />
             </b-menu-list>
           </b-menu>
-          <div class="column"></div>
+          <div class="column">
+            <router-view />
+          </div>
         </div>
       </div>
     </section>
@@ -51,6 +71,11 @@ export default {
 
   computed: {
     ...mapGetters(["profile", "isLogged"])
+  },
+  watch: {
+    $route(to) {
+      this.$store.dispatch("fetchProfile", to.params);
+    }
   }
 };
 </script>

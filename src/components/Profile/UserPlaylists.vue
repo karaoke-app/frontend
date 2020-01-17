@@ -1,5 +1,7 @@
 <template>
-    
+    <main>
+        playlists
+    </main>
 </template>
 
 <script>

@@ -1,5 +1,7 @@
 <template>
-    
+    <main>
+        edit profile
+    </main>
 </template>
 
 <script>

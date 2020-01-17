@@ -122,7 +122,7 @@ export default {
     },
     profileLink: function() {
       return {
-        name: "profile",
+        name: "userSongs",
         params: {
           user_id: this.song.user.id
         }
