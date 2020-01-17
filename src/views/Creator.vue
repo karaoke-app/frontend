@@ -7,9 +7,11 @@
             <h4 class="title is-4">Creator</h4>
           </div>
         </div>
-        <div class="level-right" v-show="step === 1">
+        <div class="level-right">
           <div class="level-item">
-            <b-button @click="showHelpModal"
+            <b-button
+              @click="showHelpModal"
+              :class="{ 'is-invisible': step !== 2 }"
               ><i class="far fa-question-circle"></i
             ></b-button>
           </div>
@@ -39,14 +41,14 @@
         </p>
       </template>
 
-      <CreatorModule v-if="step === 1" v-on:finished="nextStep" />
-
-      <template v-if="step === 2">
+      <template v-if="step === 1">
         <div class="columns is-centered">
           <div class="column is-half">
-            <h3 class="title is-3 has-text-centered">Great job!</h3>
+            <h4 class="title is-4 has-text-centered">
+              What song would you like to create?
+            </h4>
             <p class="has-text-centered">
-              Now you'll have to provide some song metadata.
+              Pass some basic song metadata
             </p>
             <hr />
             <b-field label="Song artist">
@@ -55,6 +57,30 @@
             <b-field label="Song title">
               <b-input type="text" v-model="title"></b-input>
             </b-field>
+            <b-field>
+              <div class="buttons">
+                <b-button @click="previousStep">Go back</b-button>
+                <b-button type="is-primary" @click="nextStep">Next</b-button>
+              </div>
+            </b-field>
+          </div>
+        </div>
+      </template>
+
+      <CreatorModule
+        v-if="step === 2"
+        v-on:finished="nextStep"
+        v-on:back="previousStep"
+      />
+
+      <template v-if="step === 3">
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <h3 class="title is-3 has-text-centered">Great job!</h3>
+            <p class="has-text-centered">
+              Your song is ready to be published!
+            </p>
+            <hr />
             <b-field>
               <div class="buttons">
                 <b-button @click="step--">Go back</b-button>
@@ -85,7 +111,7 @@ export default {
   computed: {
     artist: {
       get() {
-        return this.$store.state.artist;
+        return this.$store.state.creator.artist;
       },
       set(value) {
         this.$store.commit("updateArtist", value);
@@ -94,7 +120,7 @@ export default {
 
     title: {
       get() {
-        return this.$store.state.title;
+        return this.$store.state.creator.title;
       },
       set(value) {
         this.$store.commit("updateTitle", value);
@@ -105,6 +131,10 @@ export default {
   methods: {
     nextStep() {
       this.step++;
+    },
+
+    previousStep() {
+      this.step--;
     },
 
     showHelpModal() {

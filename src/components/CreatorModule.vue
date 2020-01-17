@@ -1,42 +1,48 @@
 <template>
   <div class="columns">
-    <div class="column is-half">
-      <div
-        id="player"
-        :data-plyr-provider="video.provider"
-        :data-plyr-embed-id="video.embedId"
-      ></div>
+    <div class="column is-half creator-left">
+      <div class="top">
+        <div
+          id="player"
+          :data-plyr-provider="video.provider"
+          :data-plyr-embed-id="video.embedId"
+        ></div>
 
-      <div v-if="!player" class="card player-placeholder">
-        <div class="wrapper">
-          <b-button @click="loadVideoModal">Load video</b-button>
+        <div v-if="!player" class="card player-placeholder">
+          <div class="wrapper">
+            <b-button @click="loadVideoModal">Load video</b-button>
+          </div>
+        </div>
+
+        <div class="controls">
+          <b-field v-if="player">
+            <p class="control">
+              <b-button @click="player.rewind(1)"
+                ><i class="fas fa-angle-double-left"></i
+              ></b-button>
+            </p>
+            <p class="control">
+              <b-button @click="player.rewind()"
+                ><i class="fas fa-angle-left"></i
+              ></b-button>
+            </p>
+            <b-input type="text" :value="currentTime" class="time" />
+            <p class="control">
+              <b-button @click="player.forward()"
+                ><i class="fas fa-angle-right"></i
+              ></b-button>
+            </p>
+            <p class="control">
+              <b-button @click="player.forward(1)"
+                ><i class="fas fa-angle-double-right"></i
+              ></b-button>
+            </p>
+          </b-field>
         </div>
       </div>
 
-      <div class="controls">
-        <b-field v-if="player">
-          <p class="control">
-            <b-button @click="player.rewind(1)"
-              ><i class="fas fa-angle-double-left"></i
-            ></b-button>
-          </p>
-          <p class="control">
-            <b-button @click="player.rewind()"
-              ><i class="fas fa-angle-left"></i
-            ></b-button>
-          </p>
-          <b-input type="text" :value="currentTime" class="time" />
-          <p class="control">
-            <b-button @click="player.forward()"
-              ><i class="fas fa-angle-right"></i
-            ></b-button>
-          </p>
-          <p class="control">
-            <b-button @click="player.forward(1)"
-              ><i class="fas fa-angle-double-right"></i
-            ></b-button>
-          </p>
-        </b-field>
+      <div class="bottom">
+        <b-button @click="$emit('back')">Go back</b-button>
       </div>
     </div>
 
@@ -258,5 +264,11 @@ export default {
     justify-content: center;
     align-items: center;
   }
+}
+
+.creator-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>
