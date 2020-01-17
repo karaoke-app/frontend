@@ -51,11 +51,8 @@ const routes = [
       },
       {
         path: "settings",
-        name: "editProfile",
-        component: () => import("../components/Profile/EditProfile"),
-        meta: {
-          requiredAuth: true
-        }
+        name: "settings",
+        component: () => import("../components/Profile/Settings"),
       }
     ]
   },

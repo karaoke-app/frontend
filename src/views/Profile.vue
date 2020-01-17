@@ -35,12 +35,17 @@
                 icon="list"
                 label="Playlists"
               />
+              <!--
+                Add this line when current user is ready!!!!!!
+                v-if="isCurrentUser"
+                !!!!!!!!
+              -->
               <b-menu-item
                 tag="router-link"
-                :to="{ name: 'editProfile' }"
+                :to="{ name: 'settings' }"
                 aria-role="list"
                 icon="cog"
-                label="Edit profile"
+                label="Settings"
               />
             </b-menu-list>
           </b-menu>
@@ -70,7 +75,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["profile", "isLogged"])
+    ...mapGetters(["profile", "isLogged", "currentUser"]),
+
+    isCurrentUser: function() {
+      if (this.currentUser.name && this.profile.name) {
+        return this.currentUser.name === this.profile.name;
+      }
+      return false;
+    }
   },
   watch: {
     $route(to) {

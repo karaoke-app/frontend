@@ -56,7 +56,7 @@
           tag="input"
           native-type="submit"
           value="Login"
-        ></b-button>
+        />
       </div>
     </section>
 

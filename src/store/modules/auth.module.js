@@ -3,7 +3,10 @@ import api from "@/api";
 const state = {
   status: "",
   token: localStorage.getItem("token") || "",
-  user: {}
+  user: {
+    id: null,
+    name: null
+  }
 };
 
 const getters = {
