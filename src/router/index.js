@@ -35,7 +35,7 @@ const routes = [
     }
   },
   {
-    path: "/user::user_id",
+    path: "/user/:user_id",
     component: () => import("../views/Profile.vue"),
     props: true,
     children: [
