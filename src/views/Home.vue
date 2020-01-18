@@ -62,8 +62,8 @@ export default {
   },
 
   async created() {
-    const resp = await this.$http.get("songs?limit=4");
-    this.songs = resp.data;
+    const resp = await this.$http.get("songs?sort=date_desc");
+    this.songs = resp.data.data;
     this.isLoading = false;
   }
 };

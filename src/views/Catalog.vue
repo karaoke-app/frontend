@@ -37,6 +37,18 @@
           </div>
           <div class="column">
             <CatalogGrid />
+            <template v-if="paginationMeta.total > 0">
+              <hr />
+              <b-pagination
+                :total="paginationMeta.total"
+                :current="paginationMeta.currentPage"
+                :per-page="paginationMeta.perPage"
+                order="is-centered"
+                range-before="1"
+                range-after="1"
+                @change="changePage"
+              ></b-pagination>
+            </template>
             <b-loading
               :is-full-page="false"
               :active.sync="isLoadingList"
@@ -69,7 +81,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["isLoadingList"]),
+    ...mapGetters(["isLoadingList", "paginationMeta"]),
     ...mapState({
       query: state => state.catalog.filters.query
     })
@@ -78,6 +90,11 @@ export default {
   methods: {
     search(val) {
       this.$store.commit("setFilters", { query: val });
+      this.$store.dispatch("fetchSongs");
+    },
+
+    changePage(val) {
+      this.$store.commit("setPaginationMeta", { currentPage: val });
       this.$store.dispatch("fetchSongs");
     }
   },

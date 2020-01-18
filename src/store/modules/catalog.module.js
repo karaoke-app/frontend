@@ -4,7 +4,8 @@ const state = {
   categories: [],
   songs: [],
   isLoadingList: false,
-  filters: {}
+  filters: {},
+  paginationMeta: {}
 };
 
 const getters = {
@@ -22,19 +23,22 @@ const getters = {
   },
   isFiltered() {
     return (
-      state.filters.sort !== "date_asc" ||
+      state.filters.sort !== "date_desc" ||
       state.filters.category ||
       state.filters.query
     );
+  },
+  paginationMeta() {
+    return state.paginationMeta;
   }
 };
 
 const mutations = {
-  fetchStart(state) {
+  songsFetchStart(state) {
     state.isLoadingList = true;
   },
-  fetchEnd(state, songs) {
-    state.songs = songs;
+  songsFetchEnd(state, data) {
+    state.songs = data.data;
     state.isLoadingList = false;
   },
   setCategories(state, categories) {
@@ -45,28 +49,29 @@ const mutations = {
   },
   resetFilters(state) {
     mutations.setFilters(state, {
-      sort: "date_asc",
+      sort: "date_desc",
       category: null,
       query: null
     });
+  },
+  setPaginationMeta(state, meta) {
+    state.paginationMeta = { ...state.paginationMeta, ...meta };
   }
 };
 
 const actions = {
-  fetchSongs({ commit }) {
-    commit("fetchStart");
-    return new Promise((resolve, reject) => {
-      api
-        .get("songs", {
-          params: state.filters
-        })
-        .then(resp => {
-          commit("fetchEnd", resp.data);
-          resolve(resp);
-        })
-        .catch(err => {
-          reject(err);
-        });
+  async fetchSongs({ commit }) {
+    commit("songsFetchStart");
+
+    const res = await api.get("songs", {
+      params: { ...state.filters, page: state.paginationMeta.currentPage }
+    });
+
+    commit("songsFetchEnd", res.data);
+    commit("setPaginationMeta", {
+      currentPage: res.data.current_page,
+      perPage: res.data.per_page,
+      total: res.data.total
     });
   },
 
