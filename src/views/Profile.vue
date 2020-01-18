@@ -35,12 +35,8 @@
                 icon="list"
                 label="Playlists"
               />
-              <!--
-                Add this line when current user is ready!!!!!!
-                v-if="isCurrentUser"
-                !!!!!!!!
-              -->
               <b-menu-item
+                v-if="isCurrentUser"
                 tag="router-link"
                 :to="{ name: 'settings' }"
                 aria-role="list"
@@ -78,10 +74,7 @@ export default {
     ...mapGetters(["profile", "isLogged", "currentUser"]),
 
     isCurrentUser: function() {
-      if (this.currentUser.name && this.profile.name) {
-        return this.currentUser.name === this.profile.name;
-      }
-      return false;
+      return this.currentUser.id === this.profile.id;
     }
   },
   watch: {

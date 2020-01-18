@@ -35,7 +35,7 @@ const routes = [
     }
   },
   {
-    path: "/:user_id",
+    path: "/user::user_id",
     component: () => import("../views/Profile.vue"),
     props: true,
     children: [
@@ -53,6 +53,11 @@ const routes = [
         path: "settings",
         name: "settings",
         component: () => import("../components/Profile/Settings"),
+        beforeEnter: (to, from, next) => {
+          if (store.getters.currentUser.id === to.params.user_id){
+            next();
+          }else next("/401");
+        }
       }
     ]
   },
@@ -89,5 +94,6 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
 
 export default router;
