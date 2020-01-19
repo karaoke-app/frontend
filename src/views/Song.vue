@@ -14,12 +14,6 @@
             <div class="level-item">
               <h4 class="title is-4">{{ heading }}</h4>
             </div>
-
-            <div class="level-item">
-              <b-rate icon-pack="fas" spaced size="is-small" />
-            </div>
-
-            <div class="level-item">{{ song.playCount }} plays</div>
           </div>
 
           <div class="level-right">
@@ -31,11 +25,29 @@
               <router-link :to="profileLink">{{ song.user.name }}</router-link>
             </div>
 
-            <div class="level-item">
+            <div class="level-item" v-if="$store.getters.isLogged">
               <b-tooltip label="Report" type="is-dark"
                 ><b-button type="is-text" @click="reportModal"
                   ><i class="fas fa-exclamation-triangle"/></b-button
               ></b-tooltip>
+            </div>
+          </div>
+        </div>
+
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <b-rate icon-pack="fas" spaced size="is-small" />
+            </div>
+
+            <div class="level-item">{{ song.playCount }} plays</div>
+          </div>
+          <div class="level-right">
+            <div class="level-item" v-if="$store.getters.isLogged">
+              <SongAddToPlaylist
+                :songId="song.id"
+                v-if="$store.getters.isLogged"
+              ></SongAddToPlaylist>
             </div>
           </div>
         </div>
@@ -50,11 +62,12 @@
 import KaraokeModule from "@/components/KaraokeModule.vue";
 import ReportModal from "@/components/ReportModal.vue";
 import SongSuggestions from "@/components/SongSuggestions.vue";
+import SongAddToPlaylist from "@/components/SongAddToPlaylist.vue";
 import { mapGetters } from "vuex";
 import store from "@/store";
 
 export default {
-  components: { KaraokeModule, SongSuggestions },
+  components: { KaraokeModule, SongSuggestions, SongAddToPlaylist },
 
   title() {
     return this.heading;
