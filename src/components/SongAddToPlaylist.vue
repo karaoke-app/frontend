@@ -20,16 +20,16 @@
         </p>
       </b-field>
       <ul class="menu menu-list">
-        <li
-          v-for="playlist in playlists"
-          :key="playlist.id"
-          @click="add(playlist.id)"
-        >
-          <a v-if="!playlist.added">
+        <li v-for="playlist in playlists" :key="playlist.id">
+          <a v-if="!hasSongAdded(playlist)" @click="add(playlist.id)">
             <span class="icon"><i class="fas fa-plus"></i></span>
             {{ playlist.name }}
           </a>
-          <a v-else class="has-background-white-ter has-text-grey">
+          <a
+            v-else
+            class="has-background-white-ter has-text-grey"
+            style="cursor: auto;"
+          >
             <span class="icon"><i class="fas fa-check"></i></span>
             {{ playlist.name }}
           </a>
@@ -61,8 +61,8 @@ export default {
     async loadPlaylists() {
       this.isLoading = true;
       const res = await this.$http.get("playlists");
-      this.isLoading = false;
       this.playlists = res.data;
+      this.isLoading = false;
     },
 
     onToggle(active) {
@@ -73,6 +73,7 @@ export default {
     },
 
     async create() {
+      if (this.isLoading) return;
       this.isLoading = true;
       const res = await this.$http.post("playlists", {
         name: this.name
@@ -92,6 +93,10 @@ export default {
         success("Succesfully added to playlist");
       }
       this.loadPlaylists();
+    },
+
+    hasSongAdded(playlist) {
+      return playlist.songs.find(song => song.song_id == this.songId);
     }
   }
 };
