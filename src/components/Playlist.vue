@@ -1,5 +1,8 @@
 <template>
-  <section class="playlist has-background-black has-text-white-ter">
+  <section
+    class="playlist has-background-black has-text-white-ter"
+    ref="playlist"
+  >
     <router-link
       :to="songLink(song.song_id)"
       v-for="song in playlist"
@@ -18,17 +21,19 @@
 export default {
   name: "Playlist",
 
-  props: ["playlistId", "songId"],
+  props: ["playlistId", "songId", "ended"],
 
   data() {
     return {
-      playlist: []
+      playlist: [],
+      currentIndex: null
     };
   },
 
   async mounted() {
     const res = await this.$http.get(`playlists/${this.playlistId}`);
     this.playlist = res.data.playlist;
+    this.scrollToCurrentThumbnail();
   },
 
   methods: {
@@ -38,6 +43,54 @@ export default {
         params: { songId: id },
         query: { playlist_id: this.playlistId }
       };
+    },
+
+    nextSong() {
+      const nextSong = this.playlist[this.currentIndex + 1];
+      if (typeof nextSong !== "undefined") {
+        this.$router.push(this.songLink(nextSong.song_id));
+      }
+    },
+
+    randomSong() {
+      if (this.playlist.length < 2) {
+        return;
+      }
+      let randomIndex;
+      do {
+        randomIndex = Math.floor(Math.random() * this.playlist.length);
+      } while (randomIndex == this.currentIndex);
+      const songId = this.playlist[randomIndex].song_id;
+      this.$router.push(this.songLink(songId));
+    },
+
+    scrollToCurrentThumbnail() {
+      this.$nextTick(() => {
+        const currentElement = this.$refs.playlist.children[this.currentIndex];
+        currentElement.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "end"
+        });
+      });
+    }
+  },
+
+  watch: {
+    ended: function(val) {
+      if (val) {
+        this.nextSong();
+      }
+    },
+
+    songId: function() {
+      this.currentIndex = this.playlist.findIndex(song => {
+        return song.song_id == this.songId;
+      });
+
+      setTimeout(() => {
+        this.scrollToCurrentThumbnail();
+      }, 150);
     }
   }
 };

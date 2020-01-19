@@ -5,12 +5,14 @@
       :embed-id="song.video_id"
       :cues="song.cues"
       :key="song.video_id"
+      @ended="songEnded = true"
     />
 
     <Playlist
       v-if="$route.query.playlist_id > 0"
       :songId="song.id"
       :playlistId="$route.query.playlist_id"
+      :ended="songEnded"
     ></Playlist>
 
     <header class="section">
@@ -76,6 +78,12 @@ import store from "@/store";
 export default {
   components: { KaraokeModule, SongSuggestions, SongAddToPlaylist, Playlist },
 
+  data() {
+    return {
+      songEnded: false
+    };
+  },
+
   title() {
     return this.heading;
   },
@@ -85,6 +93,7 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
+    this.songEnded = false;
     store.dispatch("fetchSong", to.params.songId).then(next);
   },
 
