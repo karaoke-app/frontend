@@ -1,9 +1,10 @@
 import api from "@/api";
+import * as jwt_decode from "jwt-decode";
 
 const state = {
   status: "",
   token: localStorage.getItem("token") || "",
-  user: {
+  currentUser: {
     id: null,
     name: null
   }
@@ -11,7 +12,7 @@ const state = {
 
 const getters = {
   currentUser(){
-    return state.user;
+    return state.currentUser;
   },
   isLogged() {
     return state.token;
@@ -24,10 +25,13 @@ const mutations = {
   auth_request(state) {
     state.status = "loading";
   },
-  auth_success(state, token, user) {
+  auth_success(state, token) {
     state.status = "success";
     state.token = token;
-    state.user = user;
+    state.currentUser = {
+      id: jwt_decode(token).sub,
+      name: jwt_decode(token).name,
+    };
   },
   auth_error(state) {
     state.status = "error";
@@ -67,10 +71,9 @@ const actions = {
       })
         .then(resp => {
           const token = resp.data.access_token;
-          const user = resp.data.user;
           localStorage.setItem("token", token);
           api.defaults.headers["Authorization"] = `Bearer ${token}`;
-          commit("auth_success", token, user);
+          commit("auth_success");
           resolve(resp);
         })
         .catch(err => {

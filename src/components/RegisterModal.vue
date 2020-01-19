@@ -135,7 +135,7 @@ export default {
         .dispatch("register", data)
         .then(() => {
           this.$router.push("/");
-          success("Registered succesfully");
+          success("Registered successfully. Please confirm your email.");
         })
         .catch(error => {
           if (error.response.status == "422") {

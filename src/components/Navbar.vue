@@ -48,7 +48,7 @@
             :to="profileLink"
             :class="{ 'is-inverted': homepage }"
           >
-            username
+            {{ this.currentUser.name }}
           </b-button>
           <button
             v-if="isLogged"
