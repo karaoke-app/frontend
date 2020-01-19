@@ -1,21 +1,26 @@
 <template>
-  <section
-    class="playlist has-background-black has-text-white-ter"
-    ref="playlist"
-    v-if="playlist.length > 0"
-  >
-    <router-link
-      :to="songLink(song.song_id)"
-      v-for="song in playlist"
-      :key="song.song_id"
-      tag="a"
-      class="playlist-thumbnail"
-      :class="{ active: song.song_id == songId }"
+  <div class="playlist-wrapper">
+    <div class="mode-switch">
+      <b-switch class="has-text-grey-light" v-model="shuffle">Shuffle</b-switch>
+    </div>
+    <section
+      class="playlist has-background-black has-text-white-ter"
+      ref="playlist"
+      v-if="playlist.length > 0"
     >
-      <img src="../assets/default_thumbnail.png" />
-      <div class="song-title">{{ song.artist }} - {{ song.title }}</div>
-    </router-link>
-  </section>
+      <router-link
+        :to="songLink(song.song_id)"
+        v-for="song in playlist"
+        :key="song.song_id"
+        tag="a"
+        class="playlist-thumbnail"
+        :class="{ active: song.song_id == songId }"
+      >
+        <img src="../assets/default_thumbnail.png" />
+        <div class="song-title">{{ song.artist }} - {{ song.title }}</div>
+      </router-link>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -29,7 +34,8 @@ export default {
   data() {
     return {
       playlist: [],
-      currentIndex: null
+      currentIndex: null,
+      shuffle: false
     };
   },
 
@@ -93,7 +99,7 @@ export default {
   watch: {
     ended: function(val) {
       if (val) {
-        this.nextSong();
+        this.shuffle ? this.randomSong() : this.nextSong();
       }
     },
 
@@ -109,6 +115,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.playlist-wrapper {
+  position: relative;
+}
+
+.mode-switch {
+  position: absolute;
+  top: -2.5em;
+  right: 1em;
+}
+
 .playlist {
   overflow-x: scroll;
   display: flex;
