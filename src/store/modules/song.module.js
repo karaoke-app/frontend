@@ -35,7 +35,7 @@ const actions = {
         method: "GET"
       })
         .then(resp => {
-          commit("fetchSongEnd", resp.data);
+          commit("fetchSongEnd", resp.data.song);
           resolve(resp);
         })
         .catch(err => {

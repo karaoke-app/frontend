@@ -109,10 +109,15 @@ export default {
 
   methods: {
     reportModal() {
+      const songId = this.song.id;
+
       this.$buefy.modal.open({
         parent: this.$root,
         component: ReportModal,
-        hasModalCard: true
+        hasModalCard: true,
+        props: {
+          songId
+        }
       });
     }
   }
