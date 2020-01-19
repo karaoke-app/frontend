@@ -13,42 +13,43 @@ const mutations = {
 };
 
 const actions = {
-  // eslint-disable-next-line no-unused-vars
-  changeUsername(data) {
+  changeUsername({ commit }, params) {
     return new Promise((resolve, reject) => {
       api({
-        url: ``,
-        method: "POST"
+        url: `users/username`,
+        method: "PUT",
+        data: params
       })
         .then(resp => {
           resolve(resp);
         })
         .catch(err => {
+          commit("settingsError", err);
           reject(err);
         });
     });
   },
-  // eslint-disable-next-line no-unused-vars
-  changePassword(data) {
+  changePassword({ commit }, params) {
     return new Promise((resolve, reject) => {
       api({
-        url: `password/reset`,
-        method: "POST"
+        url: `users/password`,
+        method: "PUT",
+        data: params
       })
         .then(resp => {
           resolve(resp);
         })
         .catch(err => {
+          commit("settingsError", err);
           reject(err);
         });
     });
   },
-  deleteAccount({ commit }, data) {
+  deleteAccount({ commit }, params) {
     return new Promise((resolve, reject) => {
       api({
-        url: `users/${data.user_id}`,
-        method: "DELETE",
-        data: data.password
+        url: `users/${params.user_id}`,
+        method: "DELETE"
       })
         .then(resp => {
           localStorage.removeItem("token");
