@@ -128,6 +128,10 @@ import CreatorModalCategories from "@/components/CreatorModalCategories.vue";
 export default {
   components: { CreatorModule },
 
+  title() {
+    return "Creator";
+  },
+
   data() {
     return {
       step: 0

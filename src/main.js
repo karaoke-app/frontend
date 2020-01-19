@@ -8,6 +8,7 @@ import "./assets/bulma-social.min.css";
 import "./vee-validate";
 import VueProgressBar from "vue-progressbar";
 import VueAuthenticate from "vue-authenticate";
+import titleMixin from "@/utils/title.mixin.js";
 import api from "./api";
 
 Vue.config.productionTip = false;
@@ -38,6 +39,8 @@ Vue.use(VueAuthenticate, {
     }
   }
 });
+
+Vue.mixin(titleMixin);
 
 new Vue({
   router,

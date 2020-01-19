@@ -54,6 +54,10 @@ export default {
     SongThumbnail
   },
 
+  title() {
+    return "Home";
+  },
+
   data() {
     return {
       songs: [],

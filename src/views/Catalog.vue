@@ -74,6 +74,10 @@ export default {
     CatalogAside
   },
 
+  title() {
+    return "Catalog";
+  },
+
   data() {
     return {
       localQuery: ""

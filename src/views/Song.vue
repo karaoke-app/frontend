@@ -56,6 +56,10 @@ import store from "@/store";
 export default {
   components: { KaraokeModule, SongSuggestions },
 
+  title() {
+    return this.heading;
+  },
+
   beforeRouteEnter(to, from, next) {
     store.dispatch("fetchSong", to.params.songId).then(next);
   },
