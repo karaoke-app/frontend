@@ -7,6 +7,12 @@
       :key="song.video_id"
     />
 
+    <Playlist
+      v-if="$route.query.playlist_id > 0"
+      :songId="song.id"
+      :playlistId="$route.query.playlist_id"
+    ></Playlist>
+
     <header class="section">
       <div class="container">
         <div class="level">
@@ -63,11 +69,12 @@ import KaraokeModule from "@/components/KaraokeModule.vue";
 import ReportModal from "@/components/ReportModal.vue";
 import SongSuggestions from "@/components/SongSuggestions.vue";
 import SongAddToPlaylist from "@/components/SongAddToPlaylist.vue";
+import Playlist from "@/components/Playlist.vue";
 import { mapGetters } from "vuex";
 import store from "@/store";
 
 export default {
-  components: { KaraokeModule, SongSuggestions, SongAddToPlaylist },
+  components: { KaraokeModule, SongSuggestions, SongAddToPlaylist, Playlist },
 
   title() {
     return this.heading;
