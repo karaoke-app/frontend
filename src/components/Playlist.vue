@@ -2,6 +2,7 @@
   <section
     class="playlist has-background-black has-text-white-ter"
     ref="playlist"
+    v-if="playlist.length > 0"
   >
     <router-link
       :to="songLink(song.song_id)"
@@ -18,6 +19,8 @@
 </template>
 
 <script>
+import { error as errorToast } from "@/utils/toasts.js";
+
 export default {
   name: "Playlist",
 
@@ -31,9 +34,14 @@ export default {
   },
 
   async mounted() {
-    const res = await this.$http.get(`playlists/${this.playlistId}`);
-    this.playlist = res.data.playlist;
-    this.scrollToCurrentThumbnail();
+    try {
+      const res = await this.$http.get(`playlists/${this.playlistId}`);
+      this.playlist = res.data.playlist;
+      this.setCurrentIndex();
+      this.scrollToCurrentThumbnail();
+    } catch (err) {
+      errorToast("Couldn't load the playlist");
+    }
   },
 
   methods: {
@@ -73,6 +81,12 @@ export default {
           inline: "end"
         });
       });
+    },
+
+    setCurrentIndex(val) {
+      this.currentIndex = this.playlist.findIndex(song => {
+        return song.song_id == (val ? val : this.songId);
+      });
     }
   },
 
@@ -83,10 +97,8 @@ export default {
       }
     },
 
-    songId: function() {
-      this.currentIndex = this.playlist.findIndex(song => {
-        return song.song_id == this.songId;
-      });
+    songId: function(val) {
+      this.setCurrentIndex(val);
 
       setTimeout(() => {
         this.scrollToCurrentThumbnail();
