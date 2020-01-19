@@ -1,12 +1,7 @@
 import api from "@/api";
 
 const state = {
-  song: {
-    video_id: null,
-    artist: {},
-    title: {},
-    cues: []
-  },
+  song: {},
   isLoadingSong: false,
   songError: null
 };

@@ -4,15 +4,15 @@
       :provider="song.provider_id"
       :embed-id="song.video_id"
       :cues="song.cues"
+      :key="song.video_id"
     />
-    <!-- <KaraokeModule provider="vimeo" embed-id="298282989" :cues="cues" /> -->
 
     <header class="section">
       <div class="container">
         <div class="level">
           <div class="level-left">
             <div class="level-item">
-              <h4 class="title is-4">{{ song.artist }} - {{ song.title }}</h4>
+              <h4 class="title is-4">{{ heading }}</h4>
             </div>
 
             <div class="level-item">
@@ -24,12 +24,12 @@
 
           <div class="level-right">
             <div class="level-item">
-              <figure class="avatar image is-32x32">
-                <img class="is-rounded" :src="authorMeta.avatar" />
-              </figure>
-            </div>
+              <span class="icon is-medium avatar">
+                <i class="fas fa-user"></i>
+              </span>
 
-            <div class="level-item">updated {{ updatedAt }}</div>
+              <router-link :to="profileLink">{{ song.user.name }}</router-link>
+            </div>
 
             <div class="level-item">
               <b-tooltip label="Report" type="is-dark"
@@ -42,81 +42,38 @@
       </div>
     </header>
 
-    <section class="section suggestions">
-      <div class="container">
-        <h3 class="subtitle is-4">Songs from {{ song.artist }}</h3>
-
-        <div class="columns">
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-        </div>
-
-        <h3 class="subtitle is-4">Songs made by {{ authorMeta.name }}</h3>
-
-        <div class="columns">
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-        </div>
-      </div>
-    </section>
+    <SongSuggestions :artist="song.artist" :key="song.artist"></SongSuggestions>
   </main>
 </template>
 
 <script>
 import KaraokeModule from "@/components/KaraokeModule.vue";
 import ReportModal from "@/components/ReportModal.vue";
-import moment from "moment";
+import SongSuggestions from "@/components/SongSuggestions.vue";
 import { mapGetters } from "vuex";
 import store from "@/store";
 
 export default {
-  components: { KaraokeModule },
-
-  data() {
-    return {
-      songMeta: {
-        updatedAt: Date.now()
-      },
-      authorMeta: {
-        name: "User",
-        avatar: "http://placehold.jp/200x200.png"
-      }
-    };
-  },
+  components: { KaraokeModule, SongSuggestions },
 
   beforeRouteEnter(to, from, next) {
-    Promise.all([store.dispatch("fetchSong", to.params.songId)]).then(() => {
-      next();
-    });
+    store.dispatch("fetchSong", to.params.songId).then(next);
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    store.dispatch("fetchSong", to.params.songId).then(next);
   },
 
   computed: {
-    updatedAt() {
-      return moment(this.songMeta.updatedAt).fromNow();
+    ...mapGetters(["song"]),
+    heading() {
+      return `${this.song.artist} - ${this.song.title}`;
     },
-
-    ...mapGetters(["song"])
+    profileLink() {
+      return `/profile/${this.song.user.id}`;
+    }
   },
+
   methods: {
     reportModal() {
       this.$buefy.modal.open({
@@ -132,5 +89,9 @@ export default {
 <style lang="scss" scoped>
 .suggestions {
   padding-top: 0;
+}
+
+.avatar {
+  margin-right: 0.5em;
 }
 </style>
