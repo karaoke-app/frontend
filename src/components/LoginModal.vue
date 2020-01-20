@@ -95,14 +95,14 @@ export default {
         .dispatch("login", { email, password })
         .then(() => {
           this.$router.push("/");
-          success("Logged in succesfully");
+          success("Logged in successfully");
+          this.$parent.close();
         })
         .catch(error => {
           if (error.response.status == "401") {
-            errorToast(error.response.data.error);
+            errorToast(error.response.data.error, 5000);
           }
         });
-      this.$parent.close();
     }
   }
 };

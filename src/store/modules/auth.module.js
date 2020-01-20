@@ -22,6 +22,12 @@ const getters = {
   }
 };
 const mutations = {
+  setCurrentUser(state){
+    state.currentUser = {
+      id: jwt_decode(localStorage.getItem("token")).sub,
+      name: jwt_decode(localStorage.getItem("token")).name,
+    };
+  },
   auth_request(state) {
     state.status = "loading";
   },
@@ -39,6 +45,12 @@ const mutations = {
   logout(state) {
     state.status = "";
     state.token = "";
+  },
+  clearCurrentUser(state){
+    state.currentUser = {
+      id: null,
+      name: null
+    }
   }
 };
 const actions = {
@@ -70,10 +82,6 @@ const actions = {
         method: "POST"
       })
         .then(resp => {
-          const token = resp.data.access_token;
-          localStorage.setItem("token", token);
-          api.defaults.headers["Authorization"] = `Bearer ${token}`;
-          commit("auth_success");
           resolve(resp);
         })
         .catch(err => {

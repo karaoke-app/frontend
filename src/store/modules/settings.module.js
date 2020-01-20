@@ -9,7 +9,7 @@ const getters = {};
 const mutations = {
   settingsError(state, err) {
     state.settingsError = err;
-  }
+  },
 };
 
 const actions = {
@@ -48,14 +48,18 @@ const actions = {
   deleteAccount({ commit }, params) {
     return new Promise((resolve, reject) => {
       api({
-        url: `users/${params.user_id}`,
+        url: `users/${params.name}`,
         method: "DELETE"
       })
         .then(resp => {
+          console.log("asda");
           localStorage.removeItem("token");
           resolve(resp);
+          commit("clearCurrentUser");
+          commit("logout");
         })
         .catch(err => {
+          console.log(err);
           commit("settingsError", err);
           reject(err);
         });

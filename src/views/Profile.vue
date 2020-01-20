@@ -2,13 +2,9 @@
   <main>
     <section class="hero is-primary is-bold">
       <div class="hero-body has-text-centered">
-        <figure class="image is-128x128">
-          <img
-            class="is-rounded"
-            src="https://bulma.io/images/placeholders/128x128.png"
-            alt="User's avatar"
-          />
-        </figure>
+        <div class="avatar-circle has-background-success">
+          <span class="initials" v-if="profile.name"> {{ profile.name | initials }}</span>
+        </div>
         <div class="container">
           <p class="title">
             {{ profile.name }}
@@ -62,10 +58,11 @@ export default {
   components: {},
   data() {
     return {
-      isActive: true,
-      userName: "john"
+      userName: null,
+      initial: null
     };
   },
+
   mounted() {
     this.$store.dispatch("fetchProfile", this.$route.params);
   },
@@ -77,9 +74,16 @@ export default {
       return this.currentUser.id === this.profile.id;
     }
   },
+
   watch: {
     $route(to) {
       this.$store.dispatch("fetchProfile", to.params);
+    }
+  },
+
+  filters: {
+    initials: function(value) {
+      return value.charAt(0).toUpperCase();
     }
   }
 };
@@ -93,5 +97,22 @@ export default {
 }
 .title {
   margin-top: 1.5rem;
+}
+.avatar-circle {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+.initials {
+  position: relative;
+  top: 25px; /* 25% of parent */
+  font-size: 50px; /* 50% of parent */
+  line-height: normal;
+  color: #fff;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
 }
 </style>

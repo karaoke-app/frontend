@@ -204,7 +204,7 @@ export default {
     },
     deleteAccount() {
       let data = {
-        user_id: this.currentUser.id
+        name: this.currentUser.name
       };
       this.$store
         .dispatch("deleteAccount", data)
