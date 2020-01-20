@@ -22,6 +22,8 @@
             <div class="level-item">
               <h4 class="title is-4">{{ heading }}</h4>
             </div>
+
+            <div class="level-item">{{ song.plays }} plays</div>
           </div>
 
           <div class="level-right">
@@ -45,10 +47,8 @@
         <div class="level">
           <div class="level-left">
             <div class="level-item">
-              <b-rate icon-pack="fas" spaced size="is-small" />
+              <SongRate :songId="song.id"></SongRate>
             </div>
-
-            <div class="level-item">{{ song.playCount }} plays</div>
           </div>
           <div class="level-right">
             <div class="level-item" v-if="$store.getters.isLogged">
@@ -72,11 +72,18 @@ import ReportModal from "@/components/ReportModal.vue";
 import SongSuggestions from "@/components/SongSuggestions.vue";
 import SongAddToPlaylist from "@/components/SongAddToPlaylist.vue";
 import Playlist from "@/components/Playlist.vue";
+import SongRate from "@/components/SongRate.vue";
 import { mapGetters } from "vuex";
 import store from "@/store";
 
 export default {
-  components: { KaraokeModule, SongSuggestions, SongAddToPlaylist, Playlist },
+  components: {
+    KaraokeModule,
+    SongSuggestions,
+    SongAddToPlaylist,
+    Playlist,
+    SongRate
+  },
 
   data() {
     return {
