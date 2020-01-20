@@ -4,34 +4,38 @@
       :provider="song.provider_id"
       :embed-id="song.video_id"
       :cues="song.cues"
+      :key="song.video_id"
+      @ended="songEnded = true"
     />
-    <!-- <KaraokeModule provider="vimeo" embed-id="298282989" :cues="cues" /> -->
+
+    <Playlist
+      v-if="$route.query.playlist_id > 0"
+      :songId="song.id"
+      :playlistId="$route.query.playlist_id"
+      :ended="songEnded"
+    ></Playlist>
 
     <header class="section">
       <div class="container">
         <div class="level">
           <div class="level-left">
             <div class="level-item">
-              <h4 class="title is-4">{{ song.artist }} - {{ song.title }}</h4>
+              <h4 class="title is-4">{{ heading }}</h4>
             </div>
 
-            <div class="level-item">
-              <b-rate icon-pack="fas" spaced size="is-small" />
-            </div>
-
-            <div class="level-item">{{ song.playCount }} plays</div>
+            <div class="level-item">{{ song.plays }} plays</div>
           </div>
 
           <div class="level-right">
             <div class="level-item">
-              <figure class="avatar image is-32x32">
-                <img class="is-rounded" :src="authorMeta.avatar" />
-              </figure>
+              <span class="icon is-medium avatar">
+                <i class="fas fa-user"></i>
+              </span>
+
+              <router-link :to="profileLink">{{ song.user.name }}</router-link>
             </div>
 
-            <div class="level-item">updated {{ updatedAt }}</div>
-
-            <div class="level-item">
+            <div class="level-item" v-if="$store.getters.isLogged">
               <b-tooltip label="Report" type="is-dark"
                 ><b-button type="is-text" @click="reportModal"
                   ><i class="fas fa-exclamation-triangle"/></b-button
@@ -39,90 +43,88 @@
             </div>
           </div>
         </div>
+
+        <div class="level">
+          <div class="level-left">
+            <div class="level-item">
+              <SongRate :songId="song.id"></SongRate>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item" v-if="$store.getters.isLogged">
+              <SongAddToPlaylist
+                :songId="song.id"
+                v-if="$store.getters.isLogged"
+              ></SongAddToPlaylist>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
-    <section class="section suggestions">
-      <div class="container">
-        <h3 class="subtitle is-4">Songs from {{ song.artist }}</h3>
-
-        <div class="columns">
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-        </div>
-
-        <h3 class="subtitle is-4">Songs made by {{ authorMeta.name }}</h3>
-
-        <div class="columns">
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-          <div class="column">
-            <img src="http://placehold.jp/500x350.png" alt="placeholder" />
-          </div>
-        </div>
-      </div>
-    </section>
+    <SongSuggestions :artist="song.artist" :key="song.artist"></SongSuggestions>
   </main>
 </template>
 
 <script>
 import KaraokeModule from "@/components/KaraokeModule.vue";
 import ReportModal from "@/components/ReportModal.vue";
-import moment from "moment";
+import SongSuggestions from "@/components/SongSuggestions.vue";
+import SongAddToPlaylist from "@/components/SongAddToPlaylist.vue";
+import Playlist from "@/components/Playlist.vue";
+import SongRate from "@/components/SongRate.vue";
 import { mapGetters } from "vuex";
 import store from "@/store";
 
 export default {
-  components: { KaraokeModule },
+  components: {
+    KaraokeModule,
+    SongSuggestions,
+    SongAddToPlaylist,
+    Playlist,
+    SongRate
+  },
 
   data() {
     return {
-      songMeta: {
-        updatedAt: Date.now()
-      },
-      authorMeta: {
-        name: "User",
-        avatar: "http://placehold.jp/200x200.png"
-      }
+      songEnded: false
     };
   },
 
+  title() {
+    return this.heading;
+  },
+
   beforeRouteEnter(to, from, next) {
-    Promise.all([store.dispatch("fetchSong", to.params.songId)]).then(() => {
-      next();
-    });
+    store.dispatch("fetchSong", to.params.songId).then(next);
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    this.songEnded = false;
+    store.dispatch("fetchSong", to.params.songId).then(next);
   },
 
   computed: {
-    updatedAt() {
-      return moment(this.songMeta.updatedAt).fromNow();
+    ...mapGetters(["song"]),
+    heading() {
+      return `${this.song.artist} - ${this.song.title}`;
     },
-
-    ...mapGetters(["song"])
+    profileLink() {
+      return `/profile/${this.song.user.id}`;
+    }
   },
+
   methods: {
     reportModal() {
+      const songId = this.song.id;
+
       this.$buefy.modal.open({
         parent: this.$root,
         component: ReportModal,
-        hasModalCard: true
+        hasModalCard: true,
+        props: {
+          songId
+        }
       });
     }
   }
@@ -132,5 +134,9 @@ export default {
 <style lang="scss" scoped>
 .suggestions {
   padding-top: 0;
+}
+
+.avatar {
+  margin-right: 0.5em;
 }
 </style>

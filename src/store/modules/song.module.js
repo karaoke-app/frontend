@@ -1,12 +1,7 @@
 import api from "@/api";
 
 const state = {
-  song: {
-    video_id: null,
-    artist: {},
-    title: {},
-    cues: []
-  },
+  song: {},
   isLoadingSong: false,
   songError: null
 };
@@ -40,7 +35,7 @@ const actions = {
         method: "GET"
       })
         .then(resp => {
-          commit("fetchSongEnd", resp.data);
+          commit("fetchSongEnd", resp.data.song);
           resolve(resp);
         })
         .catch(err => {

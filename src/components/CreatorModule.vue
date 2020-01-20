@@ -137,7 +137,7 @@ export default {
     importLyrics(lyrics) {
       let cues = lyrics
         .split(/\r?\n/)
-        .filter(text => text.length > 0)
+        .filter(text => text.trim().length > 0)
         .map(text => ({
           text,
           startTime: null,

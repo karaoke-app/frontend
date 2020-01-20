@@ -7,6 +7,9 @@ import "buefy/dist/buefy.css";
 import "./assets/bulma-social.min.css";
 import "./vee-validate";
 import VueProgressBar from "vue-progressbar";
+import titleMixin from "@/utils/title.mixin.js";
+import "@/gtag.js";
+import "@/social.js";
 import api from "./api";
 
 Vue.config.productionTip = false;
@@ -21,6 +24,8 @@ Vue.use(VueProgressBar, {
 });
 
 Vue.prototype.$http = api;
+
+Vue.mixin(titleMixin);
 
 new Vue({
   router,

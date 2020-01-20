@@ -35,6 +35,12 @@ const routes = [
     }
   },
   {
+    path: "/auth/callback",
+    component: {
+      template: "<main></main>"
+    }
+  },
+  {
     path: "/401",
     component: Unauthorized
   },
@@ -51,7 +57,7 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     } else {
-      return { x: 0, y: 0 };
+      return window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 });
