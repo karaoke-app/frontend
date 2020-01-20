@@ -82,6 +82,12 @@ export default {
       }
       this.isLoading = false;
     }
+  },
+
+  watch: {
+    "$store.getters.isLogged": function() {
+      this.fetchRating();
+    }
   }
 };
 </script>
