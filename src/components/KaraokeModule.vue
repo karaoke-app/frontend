@@ -168,6 +168,7 @@ export default {
 
       player.on("ended", () => {
         this.isFinished = true;
+        this.$emit("ended");
       });
       player.on("playing", () => {
         if (this.isFinished) {

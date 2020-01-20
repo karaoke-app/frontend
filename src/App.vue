@@ -30,6 +30,10 @@
   flex-direction: column;
 }
 
+footer.footer {
+  margin-top: auto;
+}
+
 #app > main {
   flex: 1;
 }

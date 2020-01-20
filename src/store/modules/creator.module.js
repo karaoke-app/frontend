@@ -7,7 +7,8 @@ const state = {
     embedId: ""
   },
   artist: "",
-  title: ""
+  title: "",
+  categories: []
 };
 
 const getters = {
@@ -19,13 +20,22 @@ const getters = {
     return state.video;
   },
 
+  selectedCategories() {
+    return state.categories;
+  },
+
+  categoriesId() {
+    return state.categories.map(category => category.id);
+  },
+
   storeSongData() {
     return {
       title: state.title,
       artist: state.artist,
       cues: state.cues,
       provider_id: state.video.provider,
-      video_id: state.video.embedId
+      video_id: state.video.embedId,
+      categories: getters.categoriesId()
     };
   }
 };
@@ -50,6 +60,10 @@ const mutations = {
 
   updateTitle(state, title) {
     state.title = title;
+  },
+
+  setSelectedCategories(state, categories) {
+    state.categories = categories;
   }
 };
 

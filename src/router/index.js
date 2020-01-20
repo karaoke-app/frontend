@@ -54,12 +54,20 @@ const routes = [
         name: "settings",
         component: () => import("../components/Profile/Settings"),
         beforeEnter: (to, from, next) => {
-          if (store.getters.currentUser.id === to.params.user_id){
-            next();
-          }else next("/401");
+          store.dispatch("fetchProfile", to.params).then(r => {
+            if (store.getters.currentUser.id === r.data.id) {
+              next();
+            } else next("/401");
+          });
         }
       }
     ]
+  },
+  {
+    path: "/auth/callback",
+    component: {
+      template: "<main></main>"
+    }
   },
   {
     path: "/401",
@@ -78,7 +86,7 @@ const router = new VueRouter({
     if (savedPosition) {
       return savedPosition;
     } else {
-      return { x: 0, y: 0 };
+      return window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 });
@@ -94,6 +102,5 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
 
 export default router;

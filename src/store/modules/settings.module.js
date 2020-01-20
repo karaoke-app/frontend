@@ -52,14 +52,12 @@ const actions = {
         method: "DELETE"
       })
         .then(resp => {
-          console.log("asda");
           localStorage.removeItem("token");
           resolve(resp);
           commit("clearCurrentUser");
           commit("logout");
         })
         .catch(err => {
-          console.log(err);
           commit("settingsError", err);
           reject(err);
         });

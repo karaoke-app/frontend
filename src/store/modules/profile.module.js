@@ -31,11 +31,11 @@ const mutations = {
 };
 
 const actions = {
-  fetchProfile({ commit }, user_id) {
+  fetchProfile({ commit }, params) {
     commit("fetchProfileStart");
     return new Promise((resolve, reject) => {
       api({
-        url: `users/${user_id.user_id}`,
+        url: `users/${params.user_id}`,
         method: "GET"
       })
         .then(resp => {

@@ -2,15 +2,15 @@
   <aside class="filters">
     <div class="menu-label">Sort by</div>
     <div class="select is-fullwidth">
-      <select v-model="sort" placeholder="Date ascending">
-        <option value="date_asc">Date ascending</option>
+      <select v-model="sort" placeholder="Date descending">
         <option value="date_desc">Date descending</option>
+        <option value="date_asc">Date ascending</option>
       </select>
     </div>
     <div class="categories">
       <div class="menu-label">Categories</div>
-      <div class="field" v-for="cat in categories" :key="cat.name">
-        <b-radio :native-value="cat.name" v-model="category">{{
+      <div class="field" v-for="cat in categories" :key="cat.id">
+        <b-radio :native-value="cat.id" v-model="category">{{
           cat.name
         }}</b-radio>
       </div>

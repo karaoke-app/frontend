@@ -58,6 +58,31 @@
               <b-input type="text" v-model="title"></b-input>
             </b-field>
             <b-field>
+              <template slot="label">
+                <span>Categories</span>
+                <b-button
+                  class="is-pulled-right"
+                  type="is-primary"
+                  size="is-small"
+                  @click="showCategoriesModal"
+                  >Select</b-button
+                >
+              </template>
+              <b-taglist>
+                <b-tag
+                  v-for="category in categories"
+                  :key="category.id"
+                  size="is-medium"
+                >
+                  {{ category.name }}
+                </b-tag>
+                <template v-if="categories.length === 0">
+                  No categories selected
+                </template>
+              </b-taglist>
+            </b-field>
+            <hr />
+            <b-field>
               <div class="buttons">
                 <b-button @click="previousStep">Go back</b-button>
                 <b-button type="is-primary" @click="nextStep">Next</b-button>
@@ -98,9 +123,14 @@
 import CreatorModule from "@/components/CreatorModule.vue";
 import CreatorModalHelp from "@/components/CreatorModalHelp.vue";
 import { error as errorToast, success } from "@/utils/toasts.js";
+import CreatorModalCategories from "@/components/CreatorModalCategories.vue";
 
 export default {
   components: { CreatorModule },
+
+  title() {
+    return "Creator";
+  },
 
   data() {
     return {
@@ -125,6 +155,10 @@ export default {
       set(value) {
         this.$store.commit("updateTitle", value);
       }
+    },
+
+    categories() {
+      return this.$store.getters.selectedCategories;
     }
   },
 
@@ -141,6 +175,14 @@ export default {
       this.$buefy.modal.open({
         parent: this.$root,
         component: CreatorModalHelp,
+        hasModalCard: true
+      });
+    },
+
+    showCategoriesModal() {
+      this.$buefy.modal.open({
+        parent: this.$root,
+        component: CreatorModalCategories,
         hasModalCard: true
       });
     },

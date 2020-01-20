@@ -10,14 +10,14 @@
 
     <section class="modal-card-body">
       <div class="buttons social-buttons">
-        <b-button expanded class="is-facebook">
+        <b-button expanded class="is-facebook" @click="social('facebook')">
           <span class="icon">
             <i class="fab fa-facebook" />
           </span>
           <span>Login with Facebook</span>
         </b-button>
 
-        <b-button expanded class="is-google">
+        <b-button expanded class="is-google" @click="social('google')">
           <span class="icon">
             <i class="fab fa-google" />
           </span>
@@ -97,12 +97,26 @@ export default {
           this.$router.push("/");
           success("Logged in successfully");
           this.$parent.close();
+          success("Logged in succesfully");
         })
         .catch(error => {
           if (error.response.status == "401") {
             errorToast(error.response.data.error, 5000);
           }
         });
+    },
+    async social(provider) {
+      try {
+        const response = await this.$auth.authenticate(provider);
+        const token = response.data.access_token;
+        localStorage.setItem("token", token);
+        this.$http.defaults.headers["Authorization"] = `Bearer ${token}`;
+        this.$store.commit("auth_success", token);
+        this.$parent.close();
+        success("Logged in succesfully");
+      } catch (err) {
+        errorToast(`Couldn't authenticate through ${provider}`);
+      }
     }
   }
 };
