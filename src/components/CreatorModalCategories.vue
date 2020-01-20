@@ -4,7 +4,10 @@
       <header class="modal-card-head">
         <p class="modal-card-title">Select categories</p>
       </header>
-      <section class="modal-card-body" style="min-height: 6em;">
+      <section
+        class="modal-card-body"
+        style="min-height: 6em; position: relative;"
+      >
         <div class="columns is-multiline">
           <div
             class="column is-half is-one-quarter-desktop"

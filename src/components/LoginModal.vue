@@ -97,7 +97,6 @@ export default {
           this.$router.push("/");
           success("Logged in successfully");
           this.$parent.close();
-          success("Logged in succesfully");
         })
         .catch(error => {
           if (error.response.status == "401") {

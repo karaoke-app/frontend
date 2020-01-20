@@ -48,13 +48,13 @@
               What song would you like to create?
             </h4>
             <p class="has-text-centered">
-              Pass some basic song metadata
+              Provide some basic song metadata
             </p>
             <hr />
-            <b-field label="Song artist">
+            <b-field label="Artist">
               <b-input type="text" v-model="artist"></b-input>
             </b-field>
-            <b-field label="Song title">
+            <b-field label="Title">
               <b-input type="text" v-model="title"></b-input>
             </b-field>
             <b-field>

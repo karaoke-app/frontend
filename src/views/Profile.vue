@@ -21,6 +21,7 @@
                 tag="router-link"
                 :to="{ name: 'userSongs' }"
                 aria-role="list"
+                active-class="is-active"
                 icon="music"
                 label="Songs"
               />
@@ -28,6 +29,7 @@
                 tag="router-link"
                 :to="{ name: 'userPlaylists' }"
                 aria-role="list"
+                active-class="is-active"
                 icon="list"
                 label="Playlists"
               />
@@ -36,6 +38,7 @@
                 tag="router-link"
                 :to="{ name: 'settings' }"
                 aria-role="list"
+                active-class="is-active"
                 icon="cog"
                 label="Settings"
               />
