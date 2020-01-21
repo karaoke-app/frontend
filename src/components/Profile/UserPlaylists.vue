@@ -1,9 +1,14 @@
 <template>
   <main class="container">
     <div v-for="playlist in playlists" :key="playlist.id">
-      <div class="button button-borders is-primary">
+      <b-button
+        tag="router-link"
+        type="is-link"
+        :to="{ name: 'song', params: { songId: playlist.songs[0].song_id } }"
+        class="button button-borders is-primary"
+      >
         {{ playlist.name }}
-      </div>
+      </b-button>
       <b-button
         v-if="isCurrentUser"
         class="button-borders is-danger"
@@ -14,7 +19,7 @@
       <hr class="is-marginless" />
       <div class="is-full columns playlist">
         <SongThumbnail
-          :song="song"
+          :song="modifier(song)"
           :song_id="song.song_id"
           class="column is-4"
           v-for="song in playlist.songs.slice(0, 3)"
@@ -41,11 +46,19 @@ export default {
     ...mapGetters(["playlists", "currentUser"]),
     isCurrentUser: function() {
       return this.currentUser.id === this.$route.params.user_id;
-    },
+    }
   },
   methods: {
     deletePlaylist(id) {
       this.$store.dispatch("deletePlaylist", id);
+    },
+    modifier(data) {
+      let song = {
+        id: data.song_id,
+        title: data.title,
+        artist: data.artist
+      };
+      return song;
     }
   }
 };
