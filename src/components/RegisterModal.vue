@@ -135,14 +135,15 @@ export default {
         .dispatch("register", data)
         .then(() => {
           this.$router.push("/");
-          success("Registered succesfully. Check your email.", 6000);
+          success("Registered successfully. Please confirm your email.", 5000);
+          this.$parent.close();
+          this.showLoginModal();
         })
         .catch(error => {
           if (error.response.status == "422") {
-            errorToast(error.response.data.message);
+            errorToast(error.response.data.errors.email[0], 5000);
           }
         });
-      this.$parent.close();
     },
     showLoginModal() {
       this.$parent.close();

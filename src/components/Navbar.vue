@@ -41,7 +41,15 @@
           >
             Log in
           </button>
-
+          <b-button
+            v-if="isLogged"
+            class="button is-primary"
+            tag="router-link"
+            :to="profileLink"
+            :class="{ 'is-inverted': homepage }"
+          >
+            {{ this.currentUser.name }}
+          </b-button>
           <button
             v-if="isLogged"
             class="button is-primary is-outlined"
@@ -59,6 +67,7 @@
 <script>
 import LoginModal from "@/components/LoginModal.vue";
 import RegisterModal from "@/components/RegisterModal.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {},
@@ -87,7 +96,16 @@ export default {
   computed: {
     isLogged: function() {
       return this.$store.getters.isLogged;
-    }
+    },
+    profileLink: function() {
+      return {
+        name: "userSongs",
+        params: {
+          user_id: this.currentUser.id
+        }
+      };
+    },
+    ...mapGetters(["currentUser"])
   }
 };
 </script>

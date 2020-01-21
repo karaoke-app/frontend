@@ -42,6 +42,35 @@ const routes = [
     props: true
   },
   {
+    path: "/user/:user_id",
+    component: () => import("../views/Profile.vue"),
+    props: true,
+    children: [
+      {
+        path: "songs",
+        name: "userSongs",
+        component: () => import("../components/Profile/UserSongs")
+      },
+      {
+        path: "playlists",
+        name: "userPlaylists",
+        component: () => import("../components/Profile/UserPlaylists")
+      },
+      {
+        path: "settings",
+        name: "settings",
+        component: () => import("../components/Profile/Settings"),
+        beforeEnter: (to, from, next) => {
+          store.dispatch("fetchProfile", to.params).then(r => {
+            if (store.getters.currentUser.id === r.data.id) {
+              next();
+            } else next("/401");
+          });
+        }
+      }
+    ]
+  },
+  {
     path: "/auth/callback",
     component: {
       template: "<main></main>"

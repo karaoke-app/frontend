@@ -56,7 +56,7 @@
           tag="input"
           native-type="submit"
           value="Login"
-        ></b-button>
+        />
       </div>
     </section>
 
@@ -94,14 +94,15 @@ export default {
       this.$store
         .dispatch("login", { email, password })
         .then(() => {
-          success("Logged in succesfully");
+          this.$router.push("/");
+          success("Logged in successfully");
+          this.$parent.close();
         })
         .catch(error => {
           if (error.response.status == "401") {
-            errorToast(error.response.data.error);
+            errorToast(error.response.data.error, 5000);
           }
         });
-      this.$parent.close();
     },
     async social(provider) {
       try {

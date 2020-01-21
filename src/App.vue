@@ -56,6 +56,10 @@ export default {
     }
   },
   created() {
+    if (localStorage.getItem("token")) {
+      this.$store.commit("setCurrentUser");
+    }
+
     this.$Progress.start();
 
     this.$http.interceptors.response.use(undefined, function(err) {
