@@ -29,7 +29,7 @@ export default {
       if (this.user_id === 0) {
         this.$store.dispatch("fetchSongs");
       } else {
-        this.$store.dispatch("fetchUserSongs", this.$route.params.user_id)
+        this.$store.dispatch("fetchUserSongs", this.$route.params.user_id);
       }
     }
   },

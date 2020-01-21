@@ -41,7 +41,7 @@ const mutations = {
     state.songs = data.data;
     state.isLoadingList = false;
   },
-  userSongsFetchEnd(state, data){
+  userSongsFetchEnd(state, data) {
     state.songs = data;
     state.isLoadingList = false;
   },
@@ -81,8 +81,7 @@ const actions = {
   async fetchUserSongs({ commit }, user_id) {
     commit("songsFetchStart");
 
-    const res = await api.get(`songs/user/${user_id}`, {
-    });
+    const res = await api.get(`songs/user/${user_id}`, {});
     commit("userSongsFetchEnd", res.data);
   },
 

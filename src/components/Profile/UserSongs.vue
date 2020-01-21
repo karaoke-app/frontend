@@ -1,6 +1,6 @@
 <template>
   <main>
-    <catalog-grid :user_id="parseInt(this.$route.params.user_id)"/>
+    <catalog-grid :user_id="parseInt(this.$route.params.user_id)" />
   </main>
 </template>
 

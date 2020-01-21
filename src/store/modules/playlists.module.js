@@ -25,8 +25,8 @@ const mutations = {
     state.playlistsError = err;
   },
   deletePlaylist(state, id) {
-    let i = state.playlists.map(item => item.id).indexOf(id)
-    state.playlists.splice(i, 1)
+    let i = state.playlists.map(item => item.id).indexOf(id);
+    state.playlists.splice(i, 1);
   }
 };
 

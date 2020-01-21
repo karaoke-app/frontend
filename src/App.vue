@@ -56,7 +56,7 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem("token")){
+    if (localStorage.getItem("token")) {
       this.$store.commit("setCurrentUser");
     }
 

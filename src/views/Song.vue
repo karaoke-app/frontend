@@ -29,7 +29,7 @@
           <div class="level-right">
             <div class="level-item">
               <span class="icon is-medium avatar">
-                <i class="fas fa-user"/>
+                <i class="fas fa-user" />
               </span>
 
               <router-link :to="profileLink">{{ song.user.name }}</router-link>
@@ -47,7 +47,7 @@
         <div class="level">
           <div class="level-left">
             <div class="level-item">
-              <SongRate :songId="song.id"/>
+              <SongRate :songId="song.id" />
             </div>
           </div>
           <div class="level-right">
@@ -62,7 +62,7 @@
       </div>
     </header>
 
-    <SongSuggestions :artist="song.artist" :key="song.artist"/>
+    <SongSuggestions :artist="song.artist" :key="song.artist" />
   </main>
 </template>
 
@@ -115,7 +115,7 @@ export default {
           user_id: this.song.user.id
         }
       };
-    },
+    }
   },
 
   methods: {

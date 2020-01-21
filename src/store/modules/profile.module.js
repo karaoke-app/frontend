@@ -18,14 +18,14 @@ const getters = {
 };
 
 const mutations = {
-  fetchProfileStart(state){
+  fetchProfileStart(state) {
     state.isLoadingProfile = true;
   },
   setProfile(state, profile) {
     state.profile = profile;
     state.isLoadingProfile = false;
   },
-  fetchProfileError(state, error){
+  fetchProfileError(state, error) {
     state.profileLoadingError = error;
   }
 };

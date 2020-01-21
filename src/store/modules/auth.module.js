@@ -11,7 +11,7 @@ const state = {
 };
 
 const getters = {
-  currentUser(){
+  currentUser() {
     return state.currentUser;
   },
   isLogged() {
@@ -22,10 +22,10 @@ const getters = {
   }
 };
 const mutations = {
-  setCurrentUser(state){
+  setCurrentUser(state) {
     state.currentUser = {
       id: jwt_decode(localStorage.getItem("token")).sub,
-      name: jwt_decode(localStorage.getItem("token")).name,
+      name: jwt_decode(localStorage.getItem("token")).name
     };
   },
   auth_request(state) {
@@ -36,7 +36,7 @@ const mutations = {
     state.token = token;
     state.currentUser = {
       id: jwt_decode(token).sub,
-      name: jwt_decode(token).name,
+      name: jwt_decode(token).name
     };
   },
   auth_error(state) {
@@ -46,11 +46,11 @@ const mutations = {
     state.status = "";
     state.token = "";
   },
-  clearCurrentUser(state){
+  clearCurrentUser(state) {
     state.currentUser = {
       id: null,
       name: null
-    }
+    };
   }
 };
 const actions = {

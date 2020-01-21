@@ -3,7 +3,9 @@
     <section class="hero is-primary is-bold">
       <div class="hero-body has-text-centered">
         <div class="avatar-circle has-background-success">
-          <span class="initials" v-if="profile.name"> {{ profile.name | initials }}</span>
+          <span class="initials" v-if="profile.name">
+            {{ profile.name | initials }}</span
+          >
         </div>
         <div class="container">
           <p class="title">
