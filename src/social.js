@@ -2,16 +2,16 @@ import Vue from "vue";
 import VueAuthenticate from "vue-authenticate";
 
 Vue.use(VueAuthenticate, {
-  baseUrl: "http://localhost:8081/api",
+  baseUrl: process.env.VUE_APP_BASE_URL,
 
   providers: {
     facebook: {
       clientId: process.env.VUE_APP_FACEBOOK_CLIENT_ID,
-      redirectUri: "http://localhost:8081/auth/callback"
+      redirectUri: process.env.VUE_APP_SOCIAL_REDIRECT
     },
     google: {
       clientId: process.env.VUE_APP_GOOGLE_CLIENT_ID,
-      redirectUri: "http://localhost:8081/auth/callback"
+      redirectUri: process.env.VUE_APP_SOCIAL_REDIRECT
     }
   }
 });
