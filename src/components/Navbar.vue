@@ -21,6 +21,9 @@
         :to="{ path: '/creator' }"
         >Creator</b-navbar-item
       >
+      <b-navbar-item tag="router-link" v-if="isAdmin" :to="{ path: '/admin' }">
+        Admin
+      </b-navbar-item>
     </template>
     <template slot="end">
       <b-navbar-item tag="div">
@@ -94,9 +97,6 @@ export default {
     }
   },
   computed: {
-    isLogged: function() {
-      return this.$store.getters.isLogged;
-    },
     profileLink: function() {
       return {
         name: "userSongs",
@@ -105,7 +105,7 @@ export default {
         }
       };
     },
-    ...mapGetters(["currentUser"])
+    ...mapGetters(["currentUser", "isAdmin", "isLogged"])
   }
 };
 </script>

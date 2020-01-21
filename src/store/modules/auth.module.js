@@ -6,7 +6,8 @@ const state = {
   token: localStorage.getItem("token") || "",
   currentUser: {
     id: null,
-    name: null
+    name: null,
+    admin: false
   }
 };
 
@@ -19,13 +20,17 @@ const getters = {
   },
   authStatus() {
     return state.status;
+  },
+  isAdmin() {
+    return state.currentUser.admin;
   }
 };
 const mutations = {
   setCurrentUser(state) {
     state.currentUser = {
       id: jwt_decode(localStorage.getItem("token")).sub,
-      name: jwt_decode(localStorage.getItem("token")).name
+      name: jwt_decode(localStorage.getItem("token")).name,
+      admin: jwt_decode(localStorage.getItem("token")).is_admin
     };
   },
   auth_request(state) {
@@ -36,7 +41,8 @@ const mutations = {
     state.token = token;
     state.currentUser = {
       id: jwt_decode(token).sub,
-      name: jwt_decode(token).name
+      name: jwt_decode(token).name,
+      admin: jwt_decode(token).is_admin
     };
   },
   auth_error(state) {
@@ -49,7 +55,8 @@ const mutations = {
   clearCurrentUser(state) {
     state.currentUser = {
       id: null,
-      name: null
+      name: null,
+      admin: false
     };
   }
 };

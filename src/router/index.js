@@ -71,6 +71,15 @@ const routes = [
     ]
   },
   {
+    path: "/admin",
+    name: "admin",
+    component: () =>
+      import(/* webpackChunkName: "admin" */ "../views/Admin.vue"),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/auth/callback",
     component: {
       template: "<main></main>"
