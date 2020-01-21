@@ -17,6 +17,7 @@ import SongThumbnail from "./SongThumbnail";
 export default {
   name: "List-Table",
   components: { SongThumbnail },
+  props: { user_id: { type: Number, default: 0 } },
   data() {
     return {};
   },
@@ -25,7 +26,11 @@ export default {
   },
   methods: {
     fetchSongs() {
-      this.$store.dispatch("fetchSongs");
+      if (this.user_id === 0) {
+        this.$store.dispatch("fetchSongs");
+      } else {
+        this.$store.dispatch("fetchUserSongs", this.$route.params.user_id)
+      }
     }
   },
   computed: {

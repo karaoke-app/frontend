@@ -45,7 +45,8 @@ export default {
   computed: {
     ...mapGetters(["playlists", "currentUser"]),
     isCurrentUser: function() {
-      return this.currentUser.id === this.$route.params.user_id;
+      this.$store.commit("setCurrentUser");
+      return this.currentUser.id == this.$route.params.user_id;
     }
   },
   methods: {

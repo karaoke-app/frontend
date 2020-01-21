@@ -41,6 +41,10 @@ const mutations = {
     state.songs = data.data;
     state.isLoadingList = false;
   },
+  userSongsFetchEnd(state, data){
+    state.songs = data;
+    state.isLoadingList = false;
+  },
   setCategories(state, categories) {
     state.categories = categories;
   },
@@ -66,13 +70,20 @@ const actions = {
     const res = await api.get("songs", {
       params: { ...state.filters, page: state.paginationMeta.currentPage }
     });
-
     commit("songsFetchEnd", res.data);
     commit("setPaginationMeta", {
       currentPage: res.data.current_page,
       perPage: res.data.per_page,
       total: res.data.total
     });
+  },
+
+  async fetchUserSongs({ commit }, user_id) {
+    commit("songsFetchStart");
+
+    const res = await api.get(`songs/user/${user_id}`, {
+    });
+    commit("userSongsFetchEnd", res.data);
   },
 
   async fetchCategories({ commit }) {
