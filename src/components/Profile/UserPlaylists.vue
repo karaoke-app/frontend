@@ -4,7 +4,7 @@
       <b-button
         tag="router-link"
         type="is-link"
-        :to="{ name: 'song', params: { songId: playlist.songs[0].song_id } }"
+        :to="toFirstSong(playlist)"
         class="button button-borders is-primary"
       >
         {{ playlist.name }}
@@ -60,6 +60,21 @@ export default {
         artist: data.artist
       };
       return song;
+    },
+    toFirstSong(playlist) {
+      if (playlist.songs && playlist.songs.length > 0) {
+        return {
+          name: "song",
+          params: {
+            songId: playlist.songs[0].song_id
+          },
+          query: {
+            playlist_id: playlist.id
+          }
+        };
+      } else {
+        return {};
+      }
     }
   }
 };
