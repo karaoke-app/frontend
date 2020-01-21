@@ -35,6 +35,13 @@ const routes = [
     }
   },
   {
+    path: "/activate/:userId/:token",
+    name: "activate",
+    component: () =>
+      import(/* webpackChunkName: "activate" */ "../views/Activate.vue"),
+    props: true
+  },
+  {
     path: "/auth/callback",
     component: {
       template: "<main></main>"

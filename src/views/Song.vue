@@ -13,7 +13,7 @@
       :songId="song.id"
       :playlistId="$route.query.playlist_id"
       :ended="songEnded"
-    ></Playlist>
+    />
 
     <header class="section">
       <div class="container">
@@ -29,7 +29,7 @@
           <div class="level-right">
             <div class="level-item">
               <span class="icon is-medium avatar">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user" />
               </span>
 
               <router-link :to="profileLink">{{ song.user.name }}</router-link>
@@ -47,7 +47,7 @@
         <div class="level">
           <div class="level-left">
             <div class="level-item">
-              <SongRate :songId="song.id"></SongRate>
+              <SongRate :songId="song.id" :key="song.id" />
             </div>
           </div>
           <div class="level-right">
@@ -55,14 +55,14 @@
               <SongAddToPlaylist
                 :songId="song.id"
                 v-if="$store.getters.isLogged"
-              ></SongAddToPlaylist>
+              />
             </div>
           </div>
         </div>
       </div>
     </header>
 
-    <SongSuggestions :artist="song.artist" :key="song.artist"></SongSuggestions>
+    <SongSuggestions :artist="song.artist" :key="song.artist" />
   </main>
 </template>
 
@@ -103,14 +103,18 @@ export default {
     this.songEnded = false;
     store.dispatch("fetchSong", to.params.songId).then(next);
   },
-
   computed: {
     ...mapGetters(["song"]),
     heading() {
       return `${this.song.artist} - ${this.song.title}`;
     },
-    profileLink() {
-      return `/profile/${this.song.user.id}`;
+    profileLink: function() {
+      return {
+        name: "userSongs",
+        params: {
+          user_id: this.song.user.id
+        }
+      };
     }
   },
 
